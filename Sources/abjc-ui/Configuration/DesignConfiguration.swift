@@ -13,30 +13,34 @@ public class DesignConfiguration: ObservableObject {
     /// Default Configuration for Apple TV
     public static let atv: DesignConfiguration = DesignConfiguration(.atv)
     
-    /// Default Configuration for iPad
-    public static let pad: DesignConfiguration = DesignConfiguration(.pad)
+    /// Default Configuration for iOS
+    public static let ios: DesignConfiguration = DesignConfiguration(.ios)
     
     /// Default Configuration for iPhone
-    public static let fon: DesignConfiguration = DesignConfiguration(.fon)
+    public static let mac: DesignConfiguration = DesignConfiguration(.mac)
     
     
     /// MediaRow Configuration
-    @Published public var mediaRow: MediaRow
+    public var mediaRow: MediaRow
     
     /// MediaCard Configuration
-    @Published public var mediaCard: MediaCard
+    public var mediaCard: MediaCard
     
     /// PeopleRow Configuration
-    @Published public var peopleRow: PeopleRow
+    public var peopleRow: PeopleRow
     
     /// PersonCard Configuration
-    @Published public var personCard: PersonCard
+    public var personCard: PersonCard
     
     /// EpisodeRow Configuration
-    @Published public var episodeRow: EpisodeRow
+    public var episodeRow: EpisodeRow
     
     /// EpisodeCard Configuration
-    @Published public var episodeCard: EpisodeCard
+    public var episodeCard: EpisodeCard
+    
+    
+    /// Navigation Style
+    public var navStyle: NavigationStyle
     
     
     /// Initalize Default Configuration for Device Type
@@ -50,20 +54,23 @@ public class DesignConfiguration: ObservableObject {
                 self.personCard     = .atv
                 self.episodeRow     = .atv
                 self.episodeCard    = .atv
-            case .pad:
-                self.mediaRow       = .pad
-                self.mediaCard      = .pad
-                self.peopleRow      = .pad
-                self.personCard     = .pad
-                self.episodeRow     = .pad
-                self.episodeCard    = .pad
-            case .fon:
-                self.mediaRow       = .fon
-                self.mediaCard      = .fon
-                self.peopleRow      = .fon
-                self.personCard     = .fon
-                self.episodeRow     = .fon
-                self.episodeCard    = .fon
+                self.navStyle       = .tabs
+            case .ios:
+                self.mediaRow       = .ios
+                self.mediaCard      = .ios
+                self.peopleRow      = .ios
+                self.personCard     = .ios
+                self.episodeRow     = .ios
+                self.episodeCard    = .ios
+                self.navStyle       = .stacked
+            case .mac:
+                self.mediaRow       = .mac
+                self.mediaCard      = .mac
+                self.peopleRow      = .mac
+                self.personCard     = .mac
+                self.episodeRow     = .mac
+                self.episodeCard    = .mac
+                self.navStyle       = .sidebar
         }
     }
     public init(
@@ -72,7 +79,8 @@ public class DesignConfiguration: ObservableObject {
         _ peopleRow: PeopleRow,
         _ personCard: PersonCard,
         _ episodeRow: EpisodeRow,
-        _ episodeCard: EpisodeCard
+        _ episodeCard: EpisodeCard,
+        _ navStyle: NavigationStyle
     ) {
         self.mediaRow       = mediaRow
         self.mediaCard      = mediaCard
@@ -80,17 +88,31 @@ public class DesignConfiguration: ObservableObject {
         self.personCard     = personCard
         self.episodeRow     = episodeRow
         self.episodeCard    = episodeCard
+        self.navStyle       = navStyle
     }
     
     /// DeviceType
     public enum Device {
-        /// Apple TC
+        /// Apple TV
         case atv
         
-        /// iPad
-        case pad
+        /// iOS
+        case ios
         
-        /// iPhone
-        case fon
+        /// Mac
+        case mac
+    }
+    
+    
+    /// NavigationStyle
+    public enum NavigationStyle {
+        /// MainViewContainer is TabView
+        case tabs
+        
+        /// MainViewContainer is NavigationView with Sidebar
+        case sidebar
+        
+        /// MainViewContainer is NavigationView without Sidebar
+        case stacked
     }
 }

@@ -28,7 +28,6 @@ public struct PlayerView: View {
     @State var playItem: PlayerStore.PlayItem!
     @State var player: AVPlayer!
     @State var playerReady: Bool = false
-    @State var alertError: AlertError? = nil
     @State var reportCounter = 0
     
     
@@ -40,15 +39,10 @@ public struct PlayerView: View {
         ZStack {
             Blur().edgesIgnoringSafeArea(.all)
             if playerReady {
-                VideoPlayer(player: self.player) {
-                    overlayView
-                }
+                VideoPlayer(player: self.player)
             }
         }
         .edgesIgnoringSafeArea(.all)
-        .alert(item: self.$alertError) { (alertError) -> Alert in
-            Alert(title: Text(alertError.title), message: Text(alertError.description), dismissButton: .default(Text("buttons.ok")))
-        }
         
         .onAppear(perform: initPlayback)
         .onDisappear(perform: {self.playerStore.stoppedPlayback(playItem, player)})
@@ -76,20 +70,20 @@ public struct PlayerView: View {
         
         _ = self.player.observe(\.currentItem?.status) { (player, value) in
             if value.newValue == .failed {
-                self.alertError = AlertError("alerts.playbackerror", "alerts.playbackerror.descr")
+                DispatchQueue.main.async {
+                    session.alert = AlertError("alerts.playbackerror", "alerts.playbackerror.descr")
+                }
             }
         }
         
-        self.player.addPeriodicTimeObserver(forInterval: CMTime(seconds: 10.0, preferredTimescale: 1), queue: .main) { (time) in
-            self.playerStore.reportPlayback(player, time.seconds)
-        }
-        
-        self.player.addPeriodicTimeObserver(forInterval: CMTime(seconds: 10, preferredTimescale: 1), queue: .main) { time in
-            if reportCounter < 10 {
-                self.reportCounter += 1
-            } else {
-                reportCounter = 0
-                self.playerStore.reportPlayback(player, time.seconds*10)
+        if session.preferences.beta_playbackReporting {
+            self.player.addPeriodicTimeObserver(forInterval: CMTime(seconds: 10, preferredTimescale: 1), queue: .main) { time in
+                if reportCounter < 10 {
+                    self.reportCounter += 1
+                } else {
+                    reportCounter = 0
+                    self.playerStore.reportPlayback(player, time.seconds*10)
+                }
             }
         }
         

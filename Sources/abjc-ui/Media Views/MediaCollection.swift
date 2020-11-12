@@ -45,7 +45,7 @@ public struct MediaCollection: View {
     public var body: some View {
         ViewContainer() {
             ScrollView(.vertical, showsIndicators: true) {
-                VStack(alignment: .leading) {
+                LazyVStack(alignment: .leading) {
                     ForEach(self.genres, id:\.id) { genre in
                         MediaRow(genre.name, items.filter({ $0.genres.contains(genre) }))
                         Divider()
@@ -53,7 +53,6 @@ public struct MediaCollection: View {
                 }
             }
         }
-        .edgesIgnoringSafeArea(.horizontal)
         .onAppear(perform: load)
     }
     

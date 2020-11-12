@@ -44,7 +44,10 @@ public struct MediaCard: View {
     public var body: some View {
         ZStack {
             blur
-            image
+            if !session.preferences.betaflags.contains(.uglymode) {
+                placeholder
+                image
+            }
         }
         .aspectRatio(16/9, contentMode: .fill)
         .clipped()
@@ -56,7 +59,7 @@ public struct MediaCard: View {
     
     /// Placeholder for loading URLImage
     private var placeholder: some View {
-        Image(uiImage: UIImage(blurHash: self.item.blurHash(for: .backdrop) ?? self.item.blurHash(for: .primary) ?? "", size: CGSize(width: 64, height: 64)) ?? UIImage())
+        Image(uiImage: UIImage(blurHash: self.item.blurHash(for: .backdrop) ?? self.item.blurHash(for: .primary) ?? "", size: CGSize(width: 1, height: 1)) ?? UIImage())
             .renderingMode(.original)
             .resizable()
     }

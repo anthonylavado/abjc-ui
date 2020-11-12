@@ -250,7 +250,10 @@ struct SeriesPage: View {
                 case .success(let items):
                     self.seasons = items.sorted(by: {$0.index == 0 || $0.index < $1.index})
                     self.selectedSeason = self.seasons.isEmpty ? nil : self.seasons.startIndex
-                case .failure(let error): session.alert = AlertError("alerts.apierror", error.localizedDescription)
+                case .failure(let error):
+                    DispatchQueue.main.async {
+                        session.alert = AlertError("alerts.apierror", error.localizedDescription)
+                    }
             }
         }
         
@@ -265,7 +268,10 @@ struct SeriesPage: View {
                             self.selectedSeason = seasons.firstIndex(of: currentSeason)
                         }
                     }
-                case .failure(let error): session.alert = AlertError("alerts.apierror", error.localizedDescription)
+                case .failure(let error):
+                    DispatchQueue.main.async {
+                        session.alert = AlertError("alerts.apierror", error.localizedDescription)
+                    }
             }
         }
         

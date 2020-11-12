@@ -88,7 +88,7 @@ struct CredentialEntryView: View {
                                                          token: authResponse.token)
                         self.playerStore.api = self.session.api
                     }
-                case .failure(let error):
+                case .failure(_ ):
                     session.alert = AlertError("auth.credentials.error.label", "auth.credentials.error.descr")
             }
         }

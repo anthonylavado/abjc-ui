@@ -60,14 +60,21 @@ public struct MediaRow: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 LazyHStack(spacing: spacing) {
                     ForEach(items, id:\.id) { item in
-                        NavigationLink(destination: SeriesPage(item)) {
+                        #if os(tvOS)
+                        NavigationLink(destination: ItemPage(item)) {
                             MediaCard(item)
                         }
+                        .buttonStyle(PlainButtonStyle())
+                        #else
+                        NavigationLink(destination: ItemPage(item)) {
+                            MediaCard(item)
+                        }
+                        #endif
                     }
                 }
                 .padding(edgeInsets)
-            }
-        }
+            }.edgesIgnoringSafeArea(.horizontal)
+        }.edgesIgnoringSafeArea(.horizontal)
     }
 }
 

@@ -132,11 +132,16 @@ struct MoviePage: View {
 
     /// Loads Content From API
     func load() {
+        print("MOVIE LOADING")
         // Fetch Item Detail
         session.api.getMovie(item.id) { result in
             switch result {
                 case .success(let item): self.detailItem = item
-                case .failure(let error): session.alert = AlertError("alerts.apierror", error.localizedDescription)
+                case .failure(let error):
+                    print(error)
+                    DispatchQueue.main.async {
+                        session.alert = AlertError("alerts.apierror", error.localizedDescription)
+                    }
             }
         }
         
@@ -144,7 +149,11 @@ struct MoviePage: View {
         session.api.getImages(for: item.id) { result in
             switch result {
                 case .success(let images): self.images = images
-                case .failure(let error): session.alert = AlertError("alerts.apierror", error.localizedDescription)
+                case .failure(let error):
+                    print(error)
+                    DispatchQueue.main.async {
+                        session.alert = AlertError("alerts.apierror", error.localizedDescription)
+                    }
             }
         }
         
@@ -152,7 +161,11 @@ struct MoviePage: View {
         session.api.getSimilar(for: item.id) { result in
             switch result {
                 case .success(let items): self.similarItems = items
-                case .failure(let error): session.alert = AlertError("alerts.apierror", error.localizedDescription)
+                case .failure(let error):
+                    print(error)
+                    DispatchQueue.main.async {
+                        session.alert = AlertError("alerts.apierror", error.localizedDescription)
+                    }
             }
         }
     }

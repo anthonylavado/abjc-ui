@@ -13,11 +13,11 @@ extension DesignConfiguration {
         /// Default Configuration for Apple TV
         public static let atv: MediaCard = MediaCard(width: 548, 10)
         
-        /// Default Configuration for iPad
-        public static let pad: MediaCard = MediaCard(width: 300, 10)
+        /// Default Configuration for iOS
+        public static let ios: MediaCard = MediaCard(width: 300, 10)
         
-        /// Default Configuration for iPhone
-        public static let fon: MediaCard = MediaCard(width: 300, 10)
+        /// Default Configuration for Mac
+        public static let mac: MediaCard = MediaCard(width: 300, 10)
         
         /// Media Item Size
         public let size: CGSize

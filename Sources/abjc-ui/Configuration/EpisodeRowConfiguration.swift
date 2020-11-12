@@ -15,11 +15,11 @@ extension DesignConfiguration {
         public static let atv: EpisodeRow = EpisodeRow(edgeInsets: EdgeInsets(top: 0, leading: 80, bottom: 50, trailing: 0), spacing: 48)
         
         
-        /// Default Configuration for iPad
-        public static let pad: EpisodeRow = EpisodeRow(edgeInsets: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 0), spacing: 20)
+        /// Default Configuration for iOS
+        public static let ios: EpisodeRow = EpisodeRow(edgeInsets: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 0), spacing: 20)
         
-        /// Default Configuration for iPhone
-        public static let fon: EpisodeRow = EpisodeRow(edgeInsets: EdgeInsets(top: 0, leading: 80, bottom: 50, trailing: 0), spacing: 20)
+        /// Default Configuration for Mac
+        public static let mac: EpisodeRow = EpisodeRow(edgeInsets: EdgeInsets(top: 0, leading: 80, bottom: 50, trailing: 0), spacing: 20)
         
         
         /// Media Row Padding

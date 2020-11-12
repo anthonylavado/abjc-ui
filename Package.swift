@@ -27,6 +27,6 @@ let package = Package(
             dependencies: ["URLImage", "abjc-core", "abjc-api"]),
         .testTarget(
             name: "abjc-uiTests",
-            dependencies: ["abjc-ui"]),
+            dependencies: ["abjc-ui"])
     ]
 )

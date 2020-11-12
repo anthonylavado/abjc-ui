@@ -14,10 +14,10 @@ extension DesignConfiguration {
         public static let atv: PersonCard = PersonCard(size: 548)
         
         /// Default Configuration for iPad
-        public static let pad: PersonCard = PersonCard(size: 300)
+        public static let ios: PersonCard = PersonCard(size: 300)
         
-        /// Default Configuration for iPhone
-        public static let fon: PersonCard = PersonCard(size: 300)
+        /// Default Configuration for Mac
+        public static let mac: PersonCard = PersonCard(size: 300)
         
         /// Image Size
         public let size: CGFloat

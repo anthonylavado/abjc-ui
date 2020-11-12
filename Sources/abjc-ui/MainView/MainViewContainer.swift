@@ -32,6 +32,16 @@ public struct MainViewContainer: View {
         Group() {
             if session.hasUser {
                 view
+                .fullScreenCover(item: $playerStore.playItem) {_ in
+                    PlayerView()
+                }
+                .alert(item: $session.alert) { (alert) -> Alert in
+                    Alert(
+                        title: Text(alert.title),
+                        message: Text(alert.description),
+                        dismissButton: .default(Text("buttons.ok"))
+                    )
+                }
             } else {
                 AuthView()
             }
@@ -81,17 +91,17 @@ public struct MainViewContainer: View {
                         })
                 }
                 
-                if session.preferences.showingSearchTab {
-                    NavigationLink(
-                        destination: Text("SearchView") /*SearchView(false)*/,
-                        tag: 3,
-                        selection: $selection,
-                        label: {
-                            Label("main.search.tablabel", systemImage: "magnifyingglass")
-                        })
-                }
+//                if session.preferences.showingSearchTab {
+//                    NavigationLink(
+//                        destination: Text("SearchView") /*SearchView(false)*/,
+//                        tag: 3,
+//                        selection: $selection,
+//                        label: {
+//                            Label("main.search.tablabel", systemImage: "magnifyingglass")
+//                        })
+//                }
                 NavigationLink(
-                    destination: Text("PreferencesView") /*PreferencesView()*/,
+                    destination: PreferencesView(),
                     tag: 4,
                     selection: $selection,
                     label: {
@@ -105,7 +115,37 @@ public struct MainViewContainer: View {
     
     /// Apple TV MainView
     private var view: some View {
-        Text("Apple TV")
+        TabView() {
+            if false && session.preferences.showingWatchNowTab {
+                Text("WatchNowView") // WatchNowView()
+                    .tabItem({ Text("main.watchnow.tablabel") })
+                    .tag(0)
+            }
+            if session.preferences.showingMoviesTab {
+                MediaCollection(.movie)
+                    .tabItem({ Text("main.movies.tablabel") })
+                    .tag(1)
+            }
+            
+            if session.preferences.showingSeriesTab {
+                MediaCollection(.series)
+                    .tabItem({ Text("main.shows.tablabel") })
+                    .tag(2)
+            }
+            
+            if session.preferences.showingSearchTab {
+                SearchView()
+                    .tabItem({
+                        Text("main.search.tablabel")
+                        Image(systemName: "magnifyingglass")
+                    })
+                    .tag(3)
+            }
+        
+            PreferencesView()
+                .tabItem({ Text("main.preferences.tablabel") })
+                .tag(4)
+        }
     }
     
     #endif

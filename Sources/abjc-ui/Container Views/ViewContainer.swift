@@ -8,21 +8,30 @@
 import SwiftUI
 
 struct ViewContainer<Content: View>: View {
-    private let isInnerNav: Bool
-    let content: () -> Content
     
-    public init(_ isInnerNav: Bool = true, @ViewBuilder content: @escaping () -> Content) {
-        self.isInnerNav = isInnerNav
+    /// DesignConfiguration EnvironmentObject
+    @EnvironmentObject var designConfig: DesignConfiguration
+    
+    /// Wrapped Content
+    private let content: () -> Content
+    
+    
+    /// Reference to DesignConfiguration > MediaCard > Size
+    private var embed: Bool { designConfig.navStyle == .tabs}
+    
+    public init(@ViewBuilder content: @escaping () -> Content) {
         self.content = content
     }
     
     var body: some View {
-        if !isInnerNav {
-            NavigationView {
+        Group() {
+            if embed {
+                NavigationView {
+                    content().edgesIgnoringSafeArea(.horizontal)
+                }
+            } else {
                 content()
             }
-        } else {
-            content()
         }
     }
 }
