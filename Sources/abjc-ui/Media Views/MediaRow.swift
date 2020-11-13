@@ -12,9 +12,6 @@ import abjc_api
 
 public struct MediaRow: View {
     
-    /// SessionStore EnvironmentObject
-    @EnvironmentObject var session: SessionStore
-    
     /// DesignConfiguration EnvironmentObject
     @EnvironmentObject var designConfig: DesignConfiguration
     
@@ -33,22 +30,27 @@ public struct MediaRow: View {
     private var items: [API.Models.Item]
     
     
+    private let imageURL: (String, API.Models.ImageType, Int?, Int?) -> URL
+    
+    
     /// Initializer
     /// - Parameters:
     ///   - label: Row Label
     ///   - items: Row Items
-    public init(_ label: String, _ items: [API.Models.Item]) {
+    public init(_ label: String, _ items: [API.Models.Item], _ imageURL: @escaping (String, API.Models.ImageType, Int?, Int?) -> URL ) {
         self.label = LocalizedStringKey(label)
         self.items = items
+        self.imageURL = imageURL
     }
     
     /// Initializer
     /// - Parameters:
     ///   - label: Localized Row Label
     ///   - items: Row Items
-    public init(_ label: LocalizedStringKey, _ items: [API.Models.Item]) {
+    public init(_ label: LocalizedStringKey, _ items: [API.Models.Item], _ imageURL: @escaping (String, API.Models.ImageType, Int?, Int?) -> URL ) {
         self.label = label
         self.items = items
+        self.imageURL = imageURL
     }
     
     /// ViewBuilder body
@@ -62,7 +64,7 @@ public struct MediaRow: View {
                     ForEach(items, id:\.id) { item in
                         #if os(tvOS)
                         NavigationLink(destination: ItemPage(item)) {
-                            MediaCard(item)
+                            MediaCard(item, imageURL(item.id, .backdrop, nil, nil))
                         }
                         .buttonStyle(PlainButtonStyle())
                         #else

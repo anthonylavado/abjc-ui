@@ -16,8 +16,8 @@ import abjc_api
 /// Shows
 public struct MediaCard: View {
     
-    /// SessionStore EnvironmentObject
-    @EnvironmentObject var session: SessionStore
+    /// Image URL
+    private let url: URL
     
     /// DesignConfiguration EnvironmentObject
     @EnvironmentObject var designConfig: DesignConfiguration
@@ -35,8 +35,9 @@ public struct MediaCard: View {
     
     /// Initializer
     /// - Parameter item: Item
-    public init(_ item: API.Models.Item) {
+    public init(_ item: API.Models.Item, _ url: URL) {
         self.item = item
+        self.url = url
     }
     
     
@@ -44,10 +45,8 @@ public struct MediaCard: View {
     public var body: some View {
         ZStack {
             blur
-            if !session.preferences.betaflags.contains(.uglymode) {
-                placeholder
-                image
-            }
+            placeholder
+            image
         }
         .aspectRatio(16/9, contentMode: .fill)
         .clipped()
@@ -59,7 +58,7 @@ public struct MediaCard: View {
     
     /// Placeholder for loading URLImage
     private var placeholder: some View {
-        Image(uiImage: UIImage(blurHash: self.item.blurHash(for: .backdrop) ?? self.item.blurHash(for: .primary) ?? "", size: CGSize(width: 1, height: 1)) ?? UIImage())
+        Image(uiImage: UIImage(blurHash: self.item.blurHash(for: .backdrop) ?? self.item.blurHash(for: .primary) ?? "", size: CGSize(width: 8, height: 8)) ?? UIImage())
             .renderingMode(.original)
             .resizable()
     }
@@ -81,7 +80,7 @@ public struct MediaCard: View {
     /// URLImage
     private var image: some View {
         URLImage(
-            url: session.api.getImageURL(for: item.id, .backdrop),
+            url: url,
             empty: { placeholder },
             inProgress: { _ in placeholder },
             failure:  { _,_ in placeholder }
@@ -96,12 +95,17 @@ public struct MediaCard: View {
     /// PlaybackPosition Overlay
     private var overlay: some View {
         GeometryReader() { geo in
-            if session.preferences.beta_playbackContinuation && item.userData.playbackPosition != 0 {
-                ZStack(alignment: .leading) {
-                    Capsule()
-                    Capsule()
-                        .frame(width: (geo.size.width-40) * CGFloat(item.userData.playbackPosition / item.runTime))
-                }.frame(height: 10).padding(20)
+            VStack {
+                Spacer()
+                if(item.runTimeTicks != nil) && item.userData.playbackPosition != 0 {
+                    ZStack(alignment: .leading) {
+                        Blur()
+                            .clipShape(Capsule())
+                        Capsule()
+                            .frame(width: (geo.size.width-40) * CGFloat(Double(item.userData.playbackPositionTicks) / Double(item.runTimeTicks!)))
+                            .padding(1)
+                    }.frame(height: 10).padding(20)
+                }
             }
         }.frame(width: size.width, height: size.height)
     }

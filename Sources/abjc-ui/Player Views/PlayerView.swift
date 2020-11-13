@@ -51,13 +51,14 @@ public struct PlayerView: View {
     
     /// VideoPlayer Overlay
     private var overlayView: some View {
-        Group() {
-            if /*session.preferences.beta_playerOverlay*/ false {
-                PlayerOverlay($player)
-            } else {
-                EmptyView()
-            }
-        }
+        EmptyView()
+//        Group() {
+//            if /*session.preferences.beta_playerOverlay*/ false {
+//                PlayerOverlay($player)
+//            } else {
+//                EmptyView()
+//            }
+//        }
     }
     
     

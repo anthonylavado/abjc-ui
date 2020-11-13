@@ -47,7 +47,7 @@ public struct MediaCollection: View {
             ScrollView(.vertical, showsIndicators: true) {
                 LazyVStack(alignment: .leading) {
                     ForEach(self.genres, id:\.id) { genre in
-                        MediaRow(genre.name, items.filter({ $0.genres.contains(genre) }))
+                        MediaRow(genre.name, items.filter({ $0.genres.contains(genre) }), session.api.getImageURL)
                         Divider()
                     }
                 }
@@ -59,7 +59,7 @@ public struct MediaCollection: View {
     
     /// Loads Content From API
     func load() {
-        items = session.items.filter({$0.type == self.type})
+//        items = session.items.filter({$0.type == self.type})
         session.api.getItems(type) { result in
             switch result {
                 case .success(let items):

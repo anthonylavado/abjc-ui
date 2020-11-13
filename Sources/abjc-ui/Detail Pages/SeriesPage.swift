@@ -227,7 +227,7 @@ struct SeriesPage: View {
         Group {
             if self.similarItems.count != 0 {
                 Divider().padding(.horizontal, 80)
-                MediaRow("itemdetail.recommended.label", self.similarItems)
+                MediaRow("itemdetail.recommended.label", self.similarItems, session.api.getImageURL)
             } else {
                 EmptyView()
             }

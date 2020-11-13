@@ -33,8 +33,6 @@ struct ItemPage: View {
                 case .series:  SeriesPage(item)
                 default:  EmptyView()
             }
-        }.onAppear() {
-            print(item.name, item.type.rawValue)
         }
     }
 }

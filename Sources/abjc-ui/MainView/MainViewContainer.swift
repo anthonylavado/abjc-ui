@@ -64,7 +64,7 @@ public struct MainViewContainer: View {
             List() {
                 if session.preferences.showingWatchNowTab {
                     NavigationLink(
-                        destination: Text("WatchNowView")/*WatchNowView(false)*/,
+                        destination: WatchNowView(),
                         tag: 0,
                         selection: $selection,
                         label: {
@@ -91,15 +91,15 @@ public struct MainViewContainer: View {
                         })
                 }
                 
-//                if session.preferences.showingSearchTab {
-//                    NavigationLink(
-//                        destination: Text("SearchView") /*SearchView(false)*/,
-//                        tag: 3,
-//                        selection: $selection,
-//                        label: {
-//                            Label("main.search.tablabel", systemImage: "magnifyingglass")
-//                        })
-//                }
+                if session.preferences.showingSearchTab {
+                    NavigationLink(
+                        destination: SearchView(),
+                        tag: 3,
+                        selection: $selection,
+                        label: {
+                            Label("main.search.tablabel", systemImage: "magnifyingglass")
+                        })
+                }
                 NavigationLink(
                     destination: PreferencesView(),
                     tag: 4,
@@ -116,8 +116,8 @@ public struct MainViewContainer: View {
     /// Apple TV MainView
     private var view: some View {
         TabView() {
-            if false && session.preferences.showingWatchNowTab {
-                Text("WatchNowView") // WatchNowView()
+            if session.preferences.showingWatchNowTab {
+                WatchNowView()
                     .tabItem({ Text("main.watchnow.tablabel") })
                     .tag(0)
             }

@@ -51,10 +51,12 @@ struct MoviePage: View {
     var body: some View {
         GeometryReader { geo in
             ScrollView(.vertical, showsIndicators: true) {
-                headerView.frame(width: geo.size.width, height: geo.size.height)
-//                infoView
-//                peopleView
-//                recommendedView
+                headerView
+                    .frame(width: geo.size.width, height: geo.size.height)
+//                    .background(backdrop.edgesIgnoringSafeArea(.all))
+                infoView
+                peopleView
+                recommendedView
             }
         }
         .onAppear(perform: load)
@@ -96,11 +98,30 @@ struct MoviePage: View {
         .padding(.bottom, 80)
     }
     
+    
+    /// Image Backdrop
+    var backdrop: some View {
+        Image.fromBlurHash(item.blurHash(for: .backdrop) ?? item.blurHash(for: .primary) ?? "", size: CGSize(width: 32, height: 32))
+            .renderingMode(.original)
+            .resizable()
+    }
+    
     /// Info View
     var infoView: some View {
-        VStack {
-            EmptyView()
-        }
+        VStack(alignment: .leading, spacing: 0) {
+            Divider()
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack() {
+                    InfoBox("infobox.info") {
+                        InfoBoxInfo("infobox.release", detailItem?.year != nil ? String(detailItem!.year!) : "ERR")
+                        Spacer()
+                        InfoBoxInfo("infobox.duration", String(item.runTime))
+                        Spacer()
+                        InfoBoxInfo("infobox.critics", detailItem?.criticRating != nil ? String(detailItem!.criticRating!) : "")
+                    }
+                }
+            }.edgesIgnoringSafeArea(.horizontal)
+        }.edgesIgnoringSafeArea(.horizontal)
     }
     
     
@@ -110,7 +131,7 @@ struct MoviePage: View {
             EmptyView()
             if self.detailItem?.people?.count != 0 {
                 Divider().padding(.horizontal, 80)
-//                PeopleRow(self.detailItem?.people ?? [])
+                PeopleRow("", self.detailItem?.people ?? [])
             } else {
                 EmptyView()
             }
@@ -123,7 +144,7 @@ struct MoviePage: View {
         Group {
             if self.similarItems.count != 0 {
                 Divider().padding(.horizontal, 80)
-                MediaRow("itemdetail.recommended.label", self.similarItems)
+                MediaRow("itemdetail.recommended.label", self.similarItems, session.api.getImageURL)
             } else {
                 EmptyView()
             }
