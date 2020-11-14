@@ -94,12 +94,23 @@ struct CredentialEntryView: View {
                         self.playerStore.api = self.session.api
                     }
                 case .failure(let error):
+                    var alert = AlertError("unknown", "unknown")
+                    
+                    switch error {
+                        case API.Errors.ServerError.unauthorized:
+                            print("CREDENTIALS", error)
+                            alert = AlertError("auth.credentials.error.label", "auth.credentials.error.descr")
+                            
+                        case API.Errors.ServerError.badRequest:
+                            print("CREDENTIALS", error)
+                            alert = AlertError("auth.credentials.error.label", "auth.credentials.error.descr")
+                            
+                        default:
+                            print("HOST", error)
+                            alert = AlertError("auth.credentials.error.label", "auth.host.error.descr")
+                    }
                     DispatchQueue.main.async {
-                        if error = API.Errors.ServerError.notFound {
-                            session.alert = AlertError("auth.credentials.error.label", "auth.host.error.descr")
-                        } else {
-                            session.alert = AlertError("auth.credentials.error.label", "auth.credentials.error.descr")
-                        }
+                        session.alert = alert
                     }
             }
         }
