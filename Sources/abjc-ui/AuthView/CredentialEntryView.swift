@@ -30,7 +30,7 @@ struct CredentialEntryView: View {
     
     
     /// Credentials: username
-    @State var username: String = "soeren"
+    @State var username: String = ""
     
     /// Credentials: password
     @State var password: String = ""
@@ -51,8 +51,12 @@ struct CredentialEntryView: View {
                         .foregroundColor(.secondary)
                 }
                 TextField("auth.credentials.username.label", text: self.$username)
+                    .autocapitalization(.none)
+                    .disableAutocorrection(true)
                     .textContentType(.username)
                 SecureField("auth.credentials.password.label", text: self.$password)
+                    .autocapitalization(.none)
+                    .disableAutocorrection(true)
                     .textContentType(.password)
             }.frame(width: 400)
             
@@ -69,7 +73,8 @@ struct CredentialEntryView: View {
     
     /// Authorize
     func authorize() {
-        session.api.authorize(username, password) { (result) in
+        let api = session.setServer(self.host, self.port, UUID().uuidString)
+        api.authorize(username, password) { (result) in
             switch result {
                 case .success(let authResponse):
                     DispatchQueue.main.async {
@@ -88,8 +93,14 @@ struct CredentialEntryView: View {
                                                          token: authResponse.token)
                         self.playerStore.api = self.session.api
                     }
-                case .failure(_ ):
-                    session.alert = AlertError("auth.credentials.error.label", "auth.credentials.error.descr")
+                case .failure(let error):
+                    DispatchQueue.main.async {
+                        if error = API.Errors.ServerError.notFound {
+                            session.alert = AlertError("auth.credentials.error.label", "auth.host.error.descr")
+                        } else {
+                            session.alert = AlertError("auth.credentials.error.label", "auth.credentials.error.descr")
+                        }
+                    }
             }
         }
     }

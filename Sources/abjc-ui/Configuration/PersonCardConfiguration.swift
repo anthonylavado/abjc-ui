@@ -11,7 +11,7 @@ import CoreGraphics
 extension DesignConfiguration {
     public class PersonCard: ObservableObject {
         /// Default Configuration for Apple TV
-        public static let atv: PersonCard = PersonCard(size: 548)
+        public static let atv: PersonCard = PersonCard(size: 300)
         
         /// Default Configuration for iPad
         public static let ios: PersonCard = PersonCard(size: 300)

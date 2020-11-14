@@ -54,7 +54,7 @@ struct MoviePage: View {
                 headerView
                     .frame(width: geo.size.width, height: geo.size.height)
 //                    .background(backdrop.edgesIgnoringSafeArea(.all))
-                infoView
+//                infoView
                 peopleView
                 recommendedView
             }

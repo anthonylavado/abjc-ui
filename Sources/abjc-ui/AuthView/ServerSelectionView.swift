@@ -62,7 +62,7 @@ extension AuthView {
                             }
                         }
                     }
-                }//.onAppear(perform: discover)
+                }.onAppear(perform: discover)
             }
             .navigationTitle("auth.serverselection.title")
         }

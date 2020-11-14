@@ -59,13 +59,16 @@ public struct MediaCollection: View {
     
     /// Loads Content From API
     func load() {
-//        items = session.items.filter({$0.type == self.type})
-        session.api.getItems(type) { result in
-            switch result {
-                case .success(let items):
-                    self.items = items
-                case .failure(let error):
-                    session.alert = AlertError("alerts.apierror", error.localizedDescription)
+        if session.hasUser {
+            session.api.getItems(type) { result in
+                switch result {
+                    case .success(let items):
+                        self.items = items
+                    case .failure(let error):
+                        DispatchQueue.main.async {
+                            session.alert = AlertError("alerts.apierror", error.localizedDescription)
+                        }
+                }
             }
         }
     }

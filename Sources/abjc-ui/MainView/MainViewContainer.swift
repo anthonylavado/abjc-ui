@@ -30,21 +30,20 @@ public struct MainViewContainer: View {
     
     public var body: some View {
         Group() {
-            if session.hasUser {
-                view
-                .fullScreenCover(item: $playerStore.playItem) {_ in
-                    PlayerView()
-                }
-                .alert(item: $session.alert) { (alert) -> Alert in
-                    Alert(
-                        title: Text(alert.title),
-                        message: Text(alert.description),
-                        dismissButton: .default(Text("buttons.ok"))
-                    )
-                }
-            } else {
+            if !session.hasUser || !session.api.hasAddress {
                 AuthView()
+            } else {
+                view
+                    .fullScreenCover(item: $playerStore.playItem) {_ in
+                        PlayerView()
+                    }
             }
+        }.alert(item: $session.alert) { (alert) -> Alert in
+            Alert(
+                title: Text(alert.title),
+                message: Text(alert.description),
+                dismissButton: .default(Text("buttons.ok"))
+            )
         }
     }
     

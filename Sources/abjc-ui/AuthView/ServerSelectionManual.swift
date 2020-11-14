@@ -10,7 +10,7 @@ import SwiftUI
 struct ServerSelectionManual: View {
     
     /// Server Host
-    @State var host: String = "michaels.dynv6.net"
+    @State var host: String = ""
     
     /// Server Port
     @State var port: String = "8096"
@@ -20,7 +20,11 @@ struct ServerSelectionManual: View {
         VStack {
             Group() {
                 TextField("auth.serverselection.host.label", text: self.$host)
+                    .autocapitalization(.none)
+                    .disableAutocorrection(true)
                 TextField("auth.serverselection.port.label", text: self.$port)
+                    .autocapitalization(.none)
+                    .disableAutocorrection(true)
                     .textContentType(.oneTimeCode)
                     .keyboardType(.numberPad)
             }.frame(width: 400)
