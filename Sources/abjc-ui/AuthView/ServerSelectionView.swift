@@ -31,8 +31,8 @@ extension AuthView {
         /// SessionStore EnvironmentObject
         @EnvironmentObject var session: SessionStore
         
-        /// DesignConfiguration EnvironmentObject
-        @EnvironmentObject var designConfig: DesignConfiguration
+        /// DesignConfiguration Environment
+        @Environment(\.designConfig) var designConfig
         
         
         /// Server Host
@@ -54,6 +54,15 @@ extension AuthView {
                     LazyHStack(alignment: .center) {
                         NavigationLink(destination: ServerSelectionManual()) {
                             ServerCard("auth.serverselection.manual.label", "auth.serverselection.manual.descr")
+                        }.onLongPressGesture {
+                            DispatchQueue.main.async {
+                                session.preferences.isDebugEnabled.toggle()
+                                if session.preferences.isDebugEnabled {
+                                    session.alert = AlertError("pref.debugmode.title", "pref.debugmode.enabled")
+                                } else {
+                                    session.alert = AlertError("pref.debugmode.title", "pref.debugmode.disabled")
+                                }
+                            }
                         }
                         
                         ForEach(self.servers, id:\.id) { server in

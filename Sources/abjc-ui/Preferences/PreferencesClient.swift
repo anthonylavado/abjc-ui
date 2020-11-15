@@ -16,8 +16,8 @@ extension PreferencesView {
         /// SessionStore EnvironmentObject
         @EnvironmentObject var session: SessionStore
         
-        /// DesignConfiguration EnvironmentObject
-        @EnvironmentObject var designConfig: DesignConfiguration
+        /// DesignConfiguration Environment
+        @Environment(\.designConfig) var designConfig
         
         @State var betaflags: Set<PreferenceStore.BetaFlag> = Set<PreferenceStore.BetaFlag>()
         

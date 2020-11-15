@@ -16,8 +16,8 @@ public struct EpisodeCard: View {
     /// SessionStore EnvironmentObject
     @EnvironmentObject var session: SessionStore
     
-    /// DesignConfiguration EnvironmentObject
-    @EnvironmentObject var designConfig: DesignConfiguration
+    /// DesignConfiguration Environment
+    @Environment(\.designConfig) var designConfig
     
     /// Reference to DesignConfiguration > MediaCard > Size
     private var size: CGSize { designConfig.mediaCard.size }
@@ -42,7 +42,7 @@ public struct EpisodeCard: View {
     public var body: some View {
         ZStack {
             blur
-            image
+//            image
         }
         .aspectRatio(16/9, contentMode: .fill)
         .clipped()

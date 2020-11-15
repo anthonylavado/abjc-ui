@@ -8,9 +8,8 @@
 import SwiftUI
 
 struct InfoBox<Content: View>: View {
-//
-//    /// DesignConfiguration EnvironmentObject
-//    @EnvironmentObject var designConfig: DesignConfiguration
+    /// DesignConfiguration Environment
+    @Environment(\.designConfig) var designConfig
     
     /// Label
     private let label: LocalizedStringKey

@@ -12,8 +12,8 @@ import abjc_api
 
 public struct MediaRow: View {
     
-    /// DesignConfiguration EnvironmentObject
-    @EnvironmentObject var designConfig: DesignConfiguration
+    /// DesignConfiguration Environment
+    @Environment(\.designConfig) var designConfig
     
     /// Reference to DesignConfiguration > MediaRow > Padding
     private var edgeInsets: EdgeInsets { designConfig.mediaRow.edgeInsets }
@@ -32,25 +32,28 @@ public struct MediaRow: View {
     
     private let imageURL: (String, API.Models.ImageType, Int?, Int?) -> URL
     
+    private let isFuglyModeEnabled: Bool
     
     /// Initializer
     /// - Parameters:
     ///   - label: Row Label
     ///   - items: Row Items
-    public init(_ label: String, _ items: [API.Models.Item], _ imageURL: @escaping (String, API.Models.ImageType, Int?, Int?) -> URL ) {
+    public init(_ label: String, _ items: [API.Models.Item], _ imageURL: @escaping (String, API.Models.ImageType, Int?, Int?) -> URL, _ isFuglyModeEnabled: Bool = false) {
         self.label = LocalizedStringKey(label)
         self.items = items
         self.imageURL = imageURL
+        self.isFuglyModeEnabled = isFuglyModeEnabled
     }
     
     /// Initializer
     /// - Parameters:
     ///   - label: Localized Row Label
     ///   - items: Row Items
-    public init(_ label: LocalizedStringKey, _ items: [API.Models.Item], _ imageURL: @escaping (String, API.Models.ImageType, Int?, Int?) -> URL ) {
+    public init(_ label: LocalizedStringKey, _ items: [API.Models.Item], _ imageURL: @escaping (String, API.Models.ImageType, Int?, Int?) -> URL, _ isFuglyModeEnabled: Bool = false) {
         self.label = label
         self.items = items
         self.imageURL = imageURL
+        self.isFuglyModeEnabled = isFuglyModeEnabled
     }
     
     /// ViewBuilder body
@@ -64,7 +67,7 @@ public struct MediaRow: View {
                     ForEach(items, id:\.id) { item in
                         #if os(tvOS)
                         NavigationLink(destination: ItemPage(item)) {
-                            MediaCard(item, imageURL(item.id, .backdrop, nil, nil))
+                            MediaCard(item, imageURL(item.id, .backdrop, nil, nil), isFuglyModeEnabled)
                         }
                         .buttonStyle(PlainButtonStyle())
                         #else

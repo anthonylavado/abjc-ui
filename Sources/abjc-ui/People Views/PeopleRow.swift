@@ -17,8 +17,8 @@ public struct PeopleRow: View {
     /// SessionStore EnvironmentObject
     @EnvironmentObject var session: SessionStore
     
-    /// DesignConfiguration EnvironmentObject
-    @EnvironmentObject var designConfig: DesignConfiguration
+    /// DesignConfiguration Environment
+    @Environment(\.designConfig) var designConfig
     
     /// Reference to DesignConfiguration > PeopleRow > Padding
     private var edgeInsets: EdgeInsets { designConfig.peopleRow.edgeInsets }

@@ -20,8 +20,8 @@ struct SeriesPage: View {
     /// PlayerStore EnvironmentObject
     @EnvironmentObject var playerStore: PlayerStore
     
-    /// DesignConfiguration EnvironmentObject
-    @EnvironmentObject var designConfig: DesignConfiguration
+    /// DesignConfiguration Environment
+    @Environment(\.designConfig) var designConfig
     
     
     /// Media Item (Series)
@@ -64,13 +64,15 @@ struct SeriesPage: View {
     var body: some View {
         GeometryReader { geo in
             ScrollView(.vertical, showsIndicators: true) {
-                headerView.frame(width: geo.size.width, height: geo.size.height)
-//                episodeView
+                headerView
+                    .padding(80)
+                    .frame(width: geo.size.width, height: geo.size.height)
+                episodeView
 //                infoView
-//                peopleView
-//                recommendedView
+                peopleView
+                recommendedView
             }
-        }
+        }.edgesIgnoringSafeArea(.horizontal)
         .onAppear(perform: load)
     }
     
@@ -137,67 +139,67 @@ struct SeriesPage: View {
     }
     
     
-    /// Episode View
-//    var episodeView: some View {
-//        VStack(alignment: .leading) {
-//            Text(selectedSeason != nil ? seasons[selectedSeason!].name : "EMPTY")
-//                .font(.title3)
-//                .padding(.horizontal, 80)
-//
-//            ScrollView([.horizontal]) {
-//                LazyHStack(alignment: .center, spacing: 48) {
-//                    if selectedSeason != nil && 0 < selectedSeason! {
-//                        Button(action: {
-//                            if selectedSeason != nil {
-//                                selectedSeason = seasons.index(before: selectedSeason!)
-//                            }
-//                        }) {
-//                            Image(systemName: "chevron.left")
-//                                .imageScale(.large)
-//                                .font(.title3)
-//                        }.buttonStyle(PlainButtonStyle())
-//                    }
-//
-//
-//                    if selectedSeason != nil {
-//                        ForEach(episodes.filter({$0.parentIndex == seasons[selectedSeason!].index}), id:\.id) { item in
-//                            VStack {
-//                                Button(action: {
-//                                    self.selectedEpisode = item
-//                                }) {
-//                                    EpisodeItem(item)
-//                                }
-//                                .buttonStyle(PlainButtonStyle())
-//                                Text("Episode \(item.index ?? 0)")
-//                                    .font(.callout).foregroundColor(.secondary)
-//                                Text(item.name).bold()
-//                                    .padding(.bottom, 5)
-//                                    .frame(width: 548)
-//                            }.padding(.vertical)
-//                        }
-//                    }
-//
-//                    if selectedSeason != nil && seasons.indices.last! > selectedSeason! {
-//                        Button(action: {
-//                            if selectedSeason != nil {
-//                                selectedSeason = seasons.index(after: selectedSeason!)
-//                            }
-//                        }) {
-//                            Image(systemName: "chevron.right")
-//                                .imageScale(.large)
-//                                .font(.title3)
-//                        }.buttonStyle(PlainButtonStyle())
-//                        .padding(.trailing, 80)
-//                    }
-//                }
-//                .frame(minHeight: 548*9/16)
-//                .padding(.leading, 80)
-//                .padding(.bottom, 50)
-//                .padding(.top, 40)
-//            }
-//        }
-//    }
-//
+    // Episode View
+    var episodeView: some View {
+        VStack(alignment: .leading) {
+            Text(selectedSeason != nil ? seasons[selectedSeason!].name : "EMPTY")
+                .font(.title3)
+                .padding(.horizontal, 80)
+
+            ScrollView([.horizontal]) {
+                LazyHStack(alignment: .center, spacing: 48) {
+                    if selectedSeason != nil && 0 < selectedSeason! {
+                        Button(action: {
+                            if selectedSeason != nil {
+                                selectedSeason = seasons.index(before: selectedSeason!)
+                            }
+                        }) {
+                            Image(systemName: "chevron.left")
+                                .imageScale(.large)
+                                .font(.title3)
+                        }.buttonStyle(PlainButtonStyle())
+                    }
+
+
+                    if selectedSeason != nil {
+                        ForEach(episodes.filter({$0.parentIndex == seasons[selectedSeason!].index}), id:\.id) { item in
+                            VStack {
+                                Button(action: {
+                                    self.selectedEpisode = item
+                                }) {
+                                    EpisodeCard(item)
+                                }
+                                .buttonStyle(PlainButtonStyle())
+                                Text("Episode \(item.index ?? 0)")
+                                    .font(.callout).foregroundColor(.secondary)
+                                Text(item.name).bold()
+                                    .padding(.bottom, 5)
+                                    .frame(width: 548)
+                            }.padding(.vertical)
+                        }
+                    }
+
+                    if selectedSeason != nil && seasons.indices.last! > selectedSeason! {
+                        Button(action: {
+                            if selectedSeason != nil {
+                                selectedSeason = seasons.index(after: selectedSeason!)
+                            }
+                        }) {
+                            Image(systemName: "chevron.right")
+                                .imageScale(.large)
+                                .font(.title3)
+                        }.buttonStyle(PlainButtonStyle())
+                        .padding(.trailing, 80)
+                    }
+                }
+                .frame(minHeight: 548*9/16)
+                .padding(.leading, 80)
+                .padding(.bottom, 50)
+                .padding(.top, 40)
+            }
+        }.edgesIgnoringSafeArea(.horizontal)
+    }
+
     
     
     /// Info View

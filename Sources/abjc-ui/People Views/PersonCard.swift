@@ -18,8 +18,8 @@ public struct PersonCard: View {
     /// SessionStore EnvironmentObject
     @EnvironmentObject var session: SessionStore
     
-    /// DesignConfiguration EnvironmentObject
-    @EnvironmentObject var designConfig: DesignConfiguration
+    /// DesignConfiguration Environment
+    @Environment(\.designConfig) var designConfig
     
     /// Reference to DesignConfiguration > PersonCard > Width
     private var size: CGFloat { designConfig.personCard.size }

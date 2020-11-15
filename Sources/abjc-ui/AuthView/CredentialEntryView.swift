@@ -15,8 +15,8 @@ struct CredentialEntryView: View {
     /// SessionStore EnvironmentObject
     @EnvironmentObject var session: SessionStore
     
-    /// DesignConfiguration EnvironmentObject
-    @EnvironmentObject var designConfig: DesignConfiguration
+    /// DesignConfiguration Environment
+    @Environment(\.designConfig) var designConfig
     
     /// PlayerStore EnvironmentObject
     @EnvironmentObject var playerStore: PlayerStore
@@ -95,19 +95,23 @@ struct CredentialEntryView: View {
                     }
                 case .failure(let error):
                     var alert = AlertError("unknown", "unknown")
-                    
-                    switch error {
-                        case API.Errors.ServerError.unauthorized:
-                            print("CREDENTIALS", error)
-                            alert = AlertError("auth.credentials.error.label", "auth.credentials.error.descr")
-                            
-                        case API.Errors.ServerError.badRequest:
-                            print("CREDENTIALS", error)
-                            alert = AlertError("auth.credentials.error.label", "auth.credentials.error.descr")
-                            
-                        default:
-                            print("HOST", error)
-                            alert = AlertError("auth.credentials.error.label", "auth.host.error.descr")
+                    if session.preferences.isDebugEnabled {
+                        alert = AlertError("DebugInfo", "Trying to authenticate \(username)@\(session.host):\(session.port) resulted in \(error)")
+                    }
+                    else {
+                        switch error {
+                            case API.Errors.ServerError.unauthorized:
+                                alert = AlertError("alerts.auth.title", "alerts.auth.wrongcredentials.descr")
+                                
+                            case API.Errors.ServerError.badRequest:
+                                alert = AlertError("alerts.auth.title", "alerts.auth.missingcredentials.descr")
+                                
+                            case API.Errors.ServerError.unknown:
+                                alert = AlertError("alerts.auth.title", "alerts.auth.wrongcredentials.descr")
+                                
+                            default:
+                                alert = AlertError("alerts.auth.title", "alerts.auth.wrongadress.descr")
+                        }
                     }
                     DispatchQueue.main.async {
                         session.alert = alert

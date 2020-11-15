@@ -5,10 +5,11 @@
 //  Created by Noah Kamara on 10.11.20.
 //
 
-import Foundation
+import SwiftUI
 import CoreGraphics
 
-public class DesignConfiguration: ObservableObject {
+public class DesignConfiguration: EnvironmentKey, ObservableObject {
+    public static var defaultValue: DesignConfiguration = DesignConfiguration.atv
     
     /// Default Configuration for Apple TV
     public static let atv: DesignConfiguration = DesignConfiguration(.atv)

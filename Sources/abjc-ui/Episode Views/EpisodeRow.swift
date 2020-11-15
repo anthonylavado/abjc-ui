@@ -18,8 +18,8 @@ public struct EpisodeRow: View {
     /// SessionStore EnvironmentObject
     @EnvironmentObject var session: SessionStore
     
-    /// DesignConfiguration EnvironmentObject
-    @EnvironmentObject var designConfig: DesignConfiguration
+    /// DesignConfiguration Environment
+    @Environment(\.designConfig) var designConfig
     
     /// Reference to DesignConfiguration > MediaRow > Padding
     private var edgeInsets: EdgeInsets { designConfig.mediaRow.edgeInsets }

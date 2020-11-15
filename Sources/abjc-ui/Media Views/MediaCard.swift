@@ -19,8 +19,8 @@ public struct MediaCard: View {
     /// Image URL
     private let url: URL
     
-    /// DesignConfiguration EnvironmentObject
-    @EnvironmentObject var designConfig: DesignConfiguration
+    /// DesignConfiguration Environment
+    @Environment(\.designConfig) var designConfig
     
     /// Reference to DesignConfiguration > MediaCard > Size
     private var size: CGSize { designConfig.mediaCard.size }
@@ -32,12 +32,14 @@ public struct MediaCard: View {
     /// Item
     private let item: API.Models.Item
     
+    private let isFuglyModeEnabled: Bool
     
     /// Initializer
     /// - Parameter item: Item
-    public init(_ item: API.Models.Item, _ url: URL) {
+    public init(_ item: API.Models.Item, _ url: URL, _ isFuglyModeEnabled: Bool = false) {
         self.item = item
         self.url = url
+        self.isFuglyModeEnabled = isFuglyModeEnabled
     }
     
     
@@ -45,8 +47,10 @@ public struct MediaCard: View {
     public var body: some View {
         ZStack {
             blur
-            placeholder
-            image
+            if isFuglyModeEnabled {
+                placeholder
+                image
+            }
         }
         .aspectRatio(16/9, contentMode: .fill)
         .clipped()

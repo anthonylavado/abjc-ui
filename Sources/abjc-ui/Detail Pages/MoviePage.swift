@@ -21,8 +21,8 @@ struct MoviePage: View {
     /// PlayerStore EnvironmentObject
     @EnvironmentObject var playerStore: PlayerStore
     
-    /// DesignConfiguration EnvironmentObject
-    @EnvironmentObject var designConfig: DesignConfiguration
+    /// DesignConfiguration Environment
+    @Environment(\.designConfig) var designConfig
 
     
     /// Media Item (Series)
@@ -52,13 +52,14 @@ struct MoviePage: View {
         GeometryReader { geo in
             ScrollView(.vertical, showsIndicators: true) {
                 headerView
+                    .padding(80)
                     .frame(width: geo.size.width, height: geo.size.height)
 //                    .background(backdrop.edgesIgnoringSafeArea(.all))
 //                infoView
                 peopleView
                 recommendedView
             }
-        }
+        }.edgesIgnoringSafeArea(.horizontal)
         .onAppear(perform: load)
     }
     

@@ -9,8 +9,8 @@ import SwiftUI
 
 struct ViewContainer<Content: View>: View {
     
-    /// DesignConfiguration EnvironmentObject
-    @EnvironmentObject var designConfig: DesignConfiguration
+    /// DesignConfiguration Environment
+    @Environment(\.designConfig) var designConfig
     
     /// Wrapped Content
     private let content: () -> Content
