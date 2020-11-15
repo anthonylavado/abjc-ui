@@ -11,7 +11,7 @@ import SwiftUI
 extension DesignConfiguration {
     public class PeopleRow: ObservableObject {
         /// Default Configuration for Apple TV
-        public static let atv: PeopleRow = PeopleRow(edgeInsets: EdgeInsets(top: 0, leading: 80, bottom: 50, trailing: 0), spacing: 48)
+        public static let atv: PeopleRow = PeopleRow(edgeInsets: EdgeInsets(top: 30, leading: 85, bottom: 50, trailing: 0), spacing: 48)
         
         
         /// Default Configuration for iOS

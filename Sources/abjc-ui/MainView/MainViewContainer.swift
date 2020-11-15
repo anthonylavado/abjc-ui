@@ -35,7 +35,7 @@ public struct MainViewContainer: View {
             } else {
                 view
                     .fullScreenCover(item: $playerStore.playItem) {_ in
-                        PlayerView()
+                        PlayerView().environmentObject(playerStore)
                     }
             }
         }.alert(item: $session.alert) { (alert) -> Alert in
