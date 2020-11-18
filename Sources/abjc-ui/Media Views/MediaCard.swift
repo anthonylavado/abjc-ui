@@ -47,7 +47,7 @@ public struct MediaCard: View {
     public var body: some View {
         ZStack {
             blur
-            if isFuglyModeEnabled {
+            if !isFuglyModeEnabled {
                 placeholder
                 image
             }

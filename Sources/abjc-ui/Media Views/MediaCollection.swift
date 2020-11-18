@@ -54,22 +54,40 @@ public struct MediaCollection: View {
             }
         }
         .onAppear(perform: load)
+        .onDisappear(perform: unload)
     }
     
     
     /// Loads Content From API
     func load() {
+        self.items = session.items.filter({$0.type == type})
         if session.hasUser {
             session.api.getItems(type) { result in
                 switch result {
                     case .success(let items):
-                        self.items = items
+                        if self.items != items {
+                            self.items = items
+                            session.updateItems(items)
+                        }
                     case .failure(let error):
-                        DispatchQueue.main.async {
-                            session.alert = AlertError("alerts.apierror", error.localizedDescription)
+                        if session.preferences.isDebugEnabled {
+                            DispatchQueue.main.async {
+                                session.alert = AlertError("alerts.apierror", error)
+                            }
+                        } else {
+                            DispatchQueue.main.async {
+                                session.alert = AlertError("alerts.apierror", error.localizedDescription)
+                            }
                         }
                 }
             }
+        }
+    }
+    
+    
+    func unload() {
+        DispatchQueue.main.async {
+            self.items = []
         }
     }
 }

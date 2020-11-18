@@ -24,7 +24,7 @@ public struct PreferencesView: View {
     
     
     public var body: some View {
-        NavigationView {
+        ViewContainer() {
             List(selection: $selection) {
                 NavigationLink(destination: ServerInfo()) {
                     Label("pref.serverinfo.label", systemImage: "server.rack")

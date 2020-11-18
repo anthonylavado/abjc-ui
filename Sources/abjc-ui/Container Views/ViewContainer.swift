@@ -24,14 +24,12 @@ struct ViewContainer<Content: View>: View {
     }
     
     var body: some View {
-        Group() {
-            if embed {
-                NavigationView {
-                    content().edgesIgnoringSafeArea(.horizontal)
-                }
-            } else {
-                content()
+        if embed {
+            NavigationView {
+                content().edgesIgnoringSafeArea(.horizontal)
             }
+        } else {
+            content()
         }
     }
 }

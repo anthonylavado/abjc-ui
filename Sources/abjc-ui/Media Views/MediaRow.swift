@@ -72,7 +72,7 @@ public struct MediaRow: View {
                         .buttonStyle(PlainButtonStyle())
                         #else
                         NavigationLink(destination: ItemPage(item)) {
-                            MediaCard(item)
+                            MediaCard(item, imageURL(item.id, .backdrop, nil, nil), isFuglyModeEnabled)
                         }
                         #endif
                     }

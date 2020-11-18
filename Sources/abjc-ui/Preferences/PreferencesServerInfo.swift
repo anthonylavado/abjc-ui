@@ -31,11 +31,18 @@ extension PreferencesView {
                 if let data = systemInfo {
                     Form() {
                         Section(header: Label("pref.serverinfo.general.label", systemImage: "externaldrive.connected.to.line.below")) {
-                            HStack {
+                            let servername = HStack {
                                 Text("pref.serverinfo.servername.label")
                                 Spacer()
                                 Text(data.serverName)
-                            }.focusable(true)
+                            }
+                            
+                            #if os(tvOS)
+                                servername.focusable(true)
+                            #else
+                                servername
+                            #endif
+                            
                             HStack {
                                 Text("pref.serverinfo.version.label")
                                 Spacer()

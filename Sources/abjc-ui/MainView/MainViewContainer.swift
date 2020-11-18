@@ -39,6 +39,16 @@ public struct MainViewContainer: View {
                     }
             }
         }.alert(item: $session.alert) { (alert) -> Alert in
+//            if session.preferences.isDebugEnabled {
+//                Alert(
+//                    title: Text(alert.title),
+//                    message: Text(alert.description),
+//                    primaryButton: .default(Text("buttons.ok")),
+////                    secondaryButton: .
+//                )
+//            } else {
+//                
+//            }
             Alert(
                 title: Text(alert.title),
                 message: Text(alert.description),
@@ -55,62 +65,64 @@ public struct MainViewContainer: View {
         Text("Mac")
     }
     
-    #elseif os(iOS)
-    
-    /// iPad MainView
-    private var view: some View {
-        NavigationView() {
-            List() {
-                if session.preferences.showingWatchNowTab {
-                    NavigationLink(
-                        destination: WatchNowView(),
-                        tag: 0,
-                        selection: $selection,
-                        label: {
-                            Label("main.watchnow.tablabel", systemImage: "square.grid.3x2.fill")
-                        })
-                }
-                if session.preferences.showingMoviesTab {
-                    NavigationLink(
-                        destination: MediaCollection(.movie),
-                        tag: 1,
-                        selection: $selection,
-                        label: {
-                            Label("main.movies.tablabel", systemImage: "square.grid.3x2.fill")
-                        })
-                }
-                
-                if session.preferences.showingSeriesTab {
-                    NavigationLink(
-                        destination: MediaCollection(.series),
-                        tag: 2,
-                        selection: $selection,
-                        label: {
-                            Label("main.shows.tablabel", systemImage: "square.grid.3x2.fill")
-                        })
-                }
-                
-                if session.preferences.showingSearchTab {
-                    NavigationLink(
-                        destination: SearchView(),
-                        tag: 3,
-                        selection: $selection,
-                        label: {
-                            Label("main.search.tablabel", systemImage: "magnifyingglass")
-                        })
-                }
-                NavigationLink(
-                    destination: PreferencesView(),
-                    tag: 4,
-                    selection: $selection,
-                    label: {
-                        Label("main.preferences.tablabel", systemImage: "magnifyingglass")
-                    })
-            }.listStyle(SidebarListStyle())
-        }
-    }
-    
-    #elseif os(tvOS)
+    #else
+//    if os(iOS)
+//    
+//    /// iPad MainView
+//    private var view: some View {
+//        NavigationView() {
+//            List(selection: $selection) {
+//                if session.preferences.showingWatchNowTab {
+//                    NavigationLink(
+//                        destination: WatchNowView(),
+//                        tag: 0,
+//                        selection: $selection,
+//                        label: {
+//                            Label("main.watchnow.tablabel", systemImage: "square.grid.3x2.fill")
+//                        })
+//                }
+//                if session.preferences.showingMoviesTab {
+//                    NavigationLink(
+//                        destination: MediaCollection(.movie),
+//                        tag: 1,
+//                        selection: $selection,
+//                        label: {
+//                            Label("main.movies.tablabel", systemImage: "square.grid.3x2.fill")
+//                        })
+//                }
+//                
+//                if session.preferences.showingSeriesTab {
+//                    NavigationLink(
+//                        destination: MediaCollection(.series),
+//                        tag: 2,
+//                        selection: $selection,
+//                        label: {
+//                            Label("main.shows.tablabel", systemImage: "square.grid.3x2.fill")
+//                        })
+//                }
+//                
+//                if session.preferences.showingSearchTab {
+//                    NavigationLink(
+//                        destination: SearchView(),
+//                        tag: 3,
+//                        selection: $selection,
+//                        label: {
+//                            Label("main.search.tablabel", systemImage: "magnifyingglass")
+//                        })
+//                }
+//                NavigationLink(
+//                    destination: PreferencesView(),
+//                    tag: 4,
+//                    selection: $selection,
+//                    label: {
+//                        Label("main.preferences.tablabel", systemImage: "gear")
+//                    })
+//            }.listStyle(SidebarListStyle())
+//            WatchNowView()
+//        }
+//    }
+//    
+//    #elseif os(tvOS)
     
     /// Apple TV MainView
     private var view: some View {

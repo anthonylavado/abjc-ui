@@ -146,21 +146,28 @@ struct SeriesPage: View {
                 .font(.title3)
                 .padding(.horizontal, 80)
 
+            HStack {
+                Button(action: {
+                    if selectedSeason != nil {
+                        selectedSeason = seasons.index(before: selectedSeason!)
+                    }
+                }) {
+                    Image(systemName: "chevron.left")
+                        .imageScale(.large)
+                }.disabled(!(selectedSeason != nil && 0 < selectedSeason!))
+            
+                Button(action: {
+                    if selectedSeason != nil {
+                        selectedSeason = seasons.index(after: selectedSeason!)
+                    }
+                }) {
+                    Image(systemName: "chevron.right")
+                        .imageScale(.large)
+                }.disabled(!(selectedSeason != nil && seasons.indices.last! > selectedSeason!))
+            }.padding(.horizontal, 80)
+            
             ScrollView([.horizontal]) {
                 LazyHStack(alignment: .center, spacing: 48) {
-                    if selectedSeason != nil && 0 < selectedSeason! {
-                        Button(action: {
-                            if selectedSeason != nil {
-                                selectedSeason = seasons.index(before: selectedSeason!)
-                            }
-                        }) {
-                            Image(systemName: "chevron.left")
-                                .imageScale(.large)
-                                .font(.title3)
-                        }.buttonStyle(PlainButtonStyle())
-                    }
-
-
                     if selectedSeason != nil {
                         ForEach(episodes.filter({$0.parentIndex == seasons[selectedSeason!].index}), id:\.id) { item in
                             VStack {
@@ -170,6 +177,8 @@ struct SeriesPage: View {
                                     EpisodeCard(item)
                                 }
                                 .buttonStyle(PlainButtonStyle())
+                                .frame(height: 548*9/16)
+                                
                                 Text("Episode \(item.index ?? 0)")
                                     .font(.callout).foregroundColor(.secondary)
                                 Text(item.name).bold()
@@ -178,21 +187,8 @@ struct SeriesPage: View {
                             }.padding(.vertical)
                         }
                     }
-
-                    if selectedSeason != nil && seasons.indices.last! > selectedSeason! {
-                        Button(action: {
-                            if selectedSeason != nil {
-                                selectedSeason = seasons.index(after: selectedSeason!)
-                            }
-                        }) {
-                            Image(systemName: "chevron.right")
-                                .imageScale(.large)
-                                .font(.title3)
-                        }.buttonStyle(PlainButtonStyle())
-                        .padding(.trailing, 80)
-                    }
                 }
-                .frame(minHeight: 548*9/16)
+                .frame(height: 548*9/16 + 50)
                 .padding(.leading, 80)
                 .padding(.bottom, 50)
                 .padding(.top, 40)
@@ -206,6 +202,7 @@ struct SeriesPage: View {
     var infoView: some View {
         VStack {
             EmptyView()
+            Spacer()
         }
     }
     
