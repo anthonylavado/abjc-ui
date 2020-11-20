@@ -35,6 +35,9 @@ struct CredentialEntryView: View {
     /// Credentials: password
     @State var password: String = ""
     
+    /// Credentials: HTTPS enabled
+    @State var isHttpsEnabled: Bool = false
+    
     @State var showingAlert: Bool = false
     
     init(_ host: String, _ port: Int) {
@@ -58,6 +61,7 @@ struct CredentialEntryView: View {
                     .autocapitalization(.none)
                     .disableAutocorrection(true)
                     .textContentType(.password)
+                Toggle("auth.credentials.usingHttps.label", isOn: $isHttpsEnabled)
             }.frame(width: 400)
             
             Button(action: authorize) {
@@ -66,7 +70,7 @@ struct CredentialEntryView: View {
         }
         .navigationTitle("auth.credentials.title")
         .onAppear() {
-            _ = session.setServer(self.host, self.port, UUID().uuidString)
+            _ = session.setServer(self.host, self.port, UUID().uuidString, isHttpsEnabled)
         }
     }
     

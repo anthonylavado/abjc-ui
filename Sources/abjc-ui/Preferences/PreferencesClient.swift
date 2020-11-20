@@ -21,6 +21,8 @@ extension PreferencesView {
         
         @State var betaflags: Set<PreferenceStore.BetaFlag> = Set<PreferenceStore.BetaFlag>()
         
+        var version: Version { session.preferences.version }
+        
         public init() {}
         
         
@@ -63,6 +65,11 @@ extension PreferencesView {
                             }.padding()
                         }
                     }
+                }
+                
+                HStack {
+                    Text("App Version")
+                    Text(version.description)
                 }
             }
             

@@ -42,7 +42,9 @@ public struct EpisodeCard: View {
     public var body: some View {
         ZStack {
             blur
-//            image
+            if !session.preferences.beta_uglymode {
+                image
+            }
         }
         .aspectRatio(16/9, contentMode: .fill)
         .clipped()
@@ -69,7 +71,7 @@ public struct EpisodeCard: View {
     /// URLImage
     private var image: some View {
         URLImage(
-            url: session.api.getImageURL(for: item.id, .backdrop),
+            url: session.api.getImageURL(for: item.id, .primary),
             empty: { placeholder },
             inProgress: { _ in placeholder },
             failure:  { _,_ in placeholder }

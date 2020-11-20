@@ -35,8 +35,12 @@ public struct PreferencesView: View {
                 }.tag(1)
                 
                 NavigationLink(destination: DebugMenu()) {
-                    Label("pref.debugmenu.label", systemImage: "exclamationmark.triangle.fill")
+                    Label("pref.debugmenu.label", systemImage: "exclamationmark.triangle")
                 }.tag(2)
+                
+                NavigationLink(destination: PreferencesAbout()) {
+                    Label("pref.about.label", systemImage: "exclamationmark.bubble")
+                }.tag(3)
                 
                 Button(action: {
                     self.session.clear()

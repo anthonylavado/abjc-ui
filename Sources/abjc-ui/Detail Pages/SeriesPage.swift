@@ -65,8 +65,9 @@ struct SeriesPage: View {
         GeometryReader { geo in
             ScrollView(.vertical, showsIndicators: true) {
                 headerView
-                    .padding(80)
+                    .padding(.horizontal, 80)
                     .frame(width: geo.size.width, height: geo.size.height)
+                    .padding(.bottom, 80)
                 episodeView
 //                infoView
                 peopleView
