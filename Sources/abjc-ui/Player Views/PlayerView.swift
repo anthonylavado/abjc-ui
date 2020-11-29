@@ -91,6 +91,8 @@ public struct PlayerView: View {
         player.play()
         self.playerStore.startedPlayback(player)
         self.playerReady = true
+        
+        player.seek(to: CMTime(seconds: Double(playItem.userData.playbackPosition), preferredTimescale: 1))
     }
 }
 

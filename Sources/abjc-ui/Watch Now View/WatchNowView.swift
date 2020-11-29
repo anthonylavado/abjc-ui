@@ -46,10 +46,10 @@ public struct WatchNowView: View {
                         Divider()
                     }
                     
-                    if self.nextUpItems.count != 0 {
-                        MediaRow("watchnow.nextUp", self.nextUpItems, session.api.getImageURL)
-                        Divider()
-                    }
+//                    if self.nextUpItems.count != 0 {
+//                        MediaRow("watchnow.nextUp", self.nextUpItems, session.api.getImageURL)
+//                        Divider()
+//                    }
                     
 //                    if !latestItems.filter({$0.type == .movie}).isEmpty {
 //                        MediaRow("watchnow.latestMovies", self.latestItems.filter({$0.type == .movie}))
