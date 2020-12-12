@@ -269,8 +269,15 @@ struct SeriesPage: View {
                         }
                     }
                 case .failure(let error):
+                    var alert = AlertError("unknown", "unknown")
+                    if session.preferences.isDebugEnabled {
+                        alert = AlertError("DebugInfo", "Trying to authenticate \(username)@\(session.host):\(session.port) resulted in \(error)")
+                    } else {
+                        alert = AlertError("alerts.apierror", error.localizedDescription)
+                    }
+                    
                     DispatchQueue.main.async {
-                        session.alert = AlertError("alerts.apierror", error.localizedDescription)
+                        session.alert = alert
                     }
             }
         }

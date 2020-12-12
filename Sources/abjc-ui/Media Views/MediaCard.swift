@@ -45,18 +45,23 @@ public struct MediaCard: View {
     
     /// ViewBuilder body
     public var body: some View {
-        ZStack {
-            blur
-            if !isFuglyModeEnabled {
-                placeholder
-                image
+        VStack {
+            ZStack {
+                blur
+                if !isFuglyModeEnabled {
+                    placeholder
+                    image
+                }
             }
+            .aspectRatio(16/9, contentMode: .fill)
+            .clipped()
+            .clipShape(RoundedRectangle(cornerRadius: cornerRadius, style: .continuous))
+            .frame(width: size.width, height: size.height)
+            .overlay(overlay, alignment: .bottom)
+            Text(item.name)
+                .bold()
+                .frame(width: 548)
         }
-        .aspectRatio(16/9, contentMode: .fill)
-        .clipped()
-        .clipShape(RoundedRectangle(cornerRadius: cornerRadius, style: .continuous))
-        .frame(width: size.width, height: size.height)
-        .overlay(overlay, alignment: .bottom)
     }
     
     
