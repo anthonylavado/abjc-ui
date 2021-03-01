@@ -37,12 +37,12 @@ public struct WatchNowView: View {
             ScrollView(.vertical, showsIndicators: true) {
                 VStack(alignment: .leading) {
                     if self.favoriteItems.count != 0 {
-                        MediaRow("watchnow.favorites", self.favoriteItems, session.api.getImageURL)
+                        MediaRow("watchnow.favorites", self.favoriteItems, session.api.getImageURL, session.preferences)
                         Divider()
                     }
                     
                     if self.resumeItems.count != 0 {
-                        MediaRow("watchnow.continueWatching", self.resumeItems, session.api.getImageURL)
+                        MediaRow("watchnow.continueWatching", self.resumeItems, session.api.getImageURL, session.preferences)
                         Divider()
                     }
                     

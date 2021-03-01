@@ -37,7 +37,7 @@ public struct SearchView: View {
                 
                 LazyVStack(alignment: .leading) {
                     if items.count != 0 {
-                        MediaRow("", items, session.api.getImageURL)
+                        MediaRow("", items, session.api.getImageURL, session.preferences)
                     }
                     
                     if people.count != 0 {

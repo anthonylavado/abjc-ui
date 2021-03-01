@@ -227,7 +227,7 @@ struct SeriesPage: View {
         Group {
             if self.similarItems.count != 0 {
                 Divider().padding(.horizontal, 80)
-                MediaRow("itemdetail.recommended.label", self.similarItems, session.api.getImageURL)
+                MediaRow("itemdetail.recommended.label", self.similarItems, session.api.getImageURL, session.preferences)
             } else {
                 EmptyView()
             }
@@ -271,9 +271,11 @@ struct SeriesPage: View {
                 case .failure(let error):
                     var alert = AlertError("unknown", "unknown")
                     if session.preferences.isDebugEnabled {
-                        alert = AlertError("DebugInfo", "Trying to authenticate \(username)@\(session.host):\(session.port) resulted in \(error)")
+                        alert = AlertError("DebugInfo", "Couldn't fetch episodes \(error)")
                     } else {
-                        alert = AlertError("alerts.apierror", error.localizedDescription)
+                        alert = AlertError("alerts.apierror", "Couldn't fetch episodes")
+                        
+                        
                     }
                     
                     DispatchQueue.main.async {

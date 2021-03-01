@@ -77,6 +77,7 @@ extension URLImageOptions.CachePolicy {
             case .ignoreCache: return "pref.debugmenu.images.cachepolicy.ignoreCache"
             case .returnCacheDontLoad: return "pref.debugmenu.images.cachepolicy.returnCacheDontLoad"
             case .returnCacheElseLoad: return "pref.debugmenu.images.cachepolicy.returnCacheElseLoad"
+        case .useProtocol: return "pref.debugmenu.images.cachepolicy.useProtocol"
         }
         
     }

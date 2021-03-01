@@ -55,7 +55,7 @@ struct AuthView: View {
                                                                  token: authResponse.token)
                                 self.playerStore.api = self.session.api
                             }
-                        case .failure(let error):
+                        case .failure(_ ):
                             self.firstTryFailed.toggle()
                     }
                 }

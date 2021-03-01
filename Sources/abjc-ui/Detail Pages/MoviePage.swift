@@ -145,7 +145,7 @@ struct MoviePage: View {
         Group {
             if self.similarItems.count != 0 {
                 Divider().padding(.horizontal, 80)
-                MediaRow("itemdetail.recommended.label", self.similarItems, session.api.getImageURL)
+                MediaRow("itemdetail.recommended.label", self.similarItems, session.api.getImageURL, session.preferences)
             } else {
                 EmptyView()
             }
@@ -174,9 +174,9 @@ struct MoviePage: View {
                 case .failure(let error):
                     var alert = AlertError("unknown", "unknown")
                     if session.preferences.isDebugEnabled {
-                        alert = AlertError("DebugInfo", "Trying to authenticate \(username)@\(session.host):\(session.port) resulted in \(error)")
-                    } else {
                         alert = AlertError("alerts.apierror", error.localizedDescription)
+                    } else {
+                        alert = AlertError("DebugInfo", "Trying to retrieve image for \(item.name) resulted in error")
                     }
                     
                     DispatchQueue.main.async {

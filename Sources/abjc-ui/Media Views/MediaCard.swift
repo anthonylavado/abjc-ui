@@ -32,14 +32,14 @@ public struct MediaCard: View {
     /// Item
     private let item: API.Models.Item
     
-    private let isFuglyModeEnabled: Bool
+    private let prefs: PreferenceStore
     
     /// Initializer
     /// - Parameter item: Item
-    public init(_ item: API.Models.Item, _ url: URL, _ isFuglyModeEnabled: Bool = false) {
+    public init(_ item: API.Models.Item, _ url: URL, _ prefs: PreferenceStore) {
         self.item = item
         self.url = url
-        self.isFuglyModeEnabled = isFuglyModeEnabled
+        self.prefs = prefs
     }
     
     
@@ -48,7 +48,7 @@ public struct MediaCard: View {
         VStack {
             ZStack {
                 blur
-                if !isFuglyModeEnabled {
+                if !prefs.beta_uglymode {
                     placeholder
                     image
                 }
@@ -58,9 +58,12 @@ public struct MediaCard: View {
             .clipShape(RoundedRectangle(cornerRadius: cornerRadius, style: .continuous))
             .frame(width: size.width, height: size.height)
             .overlay(overlay, alignment: .bottom)
-            Text(item.name)
-                .bold()
-                .frame(width: 548)
+            if prefs.beta_showsTitles {
+                HStack(alignment: .top) {
+                    Text(item.name)
+                        .bold()
+                }.frame(width: size.width, height: 90)
+            }
         }
     }
     

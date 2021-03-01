@@ -78,7 +78,7 @@ struct CredentialEntryView: View {
     /// Authorize
     func authorize() {
         let api = session.setServer(self.host, self.port, UUID().uuidString)
-        api.authorize(username, password) { (result) in
+        api.authorize(username, password, isHttpsEnabled) { (result) in
             switch result {
                 case .success(let authResponse):
                     DispatchQueue.main.async {
@@ -100,15 +100,14 @@ struct CredentialEntryView: View {
                 case .failure(let error):
                     var alert = AlertError("unknown", "unknown")
                     if session.preferences.isDebugEnabled {
-                        alert = AlertError("DebugInfo", "Trying to authenticate \(username)@\(session.host):\(session.port) resulted in \(error)")
-                    }
-                    else {
+                        alert = AlertError("DebugInfo", "Trying to authenticate \(isHttpsEnabled ? "HTTPS" : "") \(username)@\(session.host):\(session.port) resulted in \(error.localizedDescription)")
+                    } else {
                         switch error {
                             case API.Errors.ServerError.unauthorized:
                                 alert = AlertError("alerts.auth.title", "alerts.auth.wrongcredentials.descr")
                                 
                             case API.Errors.ServerError.badRequest:
-                                alert = AlertError("alerts.auth.title", "alerts.auth.missingcredentials.descr")
+                                alert = AlertError("alerts.auth.title", "alerts.auth.badRequest.descr")
                                 
                             case API.Errors.ServerError.unknown:
                                 alert = AlertError("alerts.auth.title", "alerts.auth.wrongcredentials.descr")

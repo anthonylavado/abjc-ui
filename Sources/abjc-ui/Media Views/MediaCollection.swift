@@ -47,7 +47,7 @@ public struct MediaCollection: View {
             ScrollView(.vertical, showsIndicators: true) {
                 LazyVStack(alignment: .leading) {
                     ForEach(self.genres, id:\.id) { genre in
-                        MediaRow(genre.name, items.filter({ $0.genres.contains(genre) }), session.api.getImageURL, session.preferences.beta_uglymode)
+                        MediaRow(genre.name, items.filter({ $0.genres.contains(genre) }), session.api.getImageURL, session.preferences)
                         Divider()
                     }
                 }

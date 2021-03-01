@@ -49,17 +49,17 @@ struct SinglePageView: View {
             ScrollView(.vertical, showsIndicators: true) {
                 LazyVStack(alignment: .leading) {
                     if self.favoriteItems.count != 0 {
-                        MediaRow("watchnow.favorites", self.favoriteItems, session.api.getImageURL)
+                        MediaRow("watchnow.favorites", self.favoriteItems, session.api.getImageURL, session.preferences)
                         Divider()
                     }
                     
                     if self.resumeItems.count != 0 {
-                        MediaRow("watchnow.continueWatching", self.resumeItems, session.api.getImageURL)
+                        MediaRow("watchnow.continueWatching", self.resumeItems, session.api.getImageURL, session.preferences)
                         Divider()
                     }
                     
                     ForEach(self.genres, id:\.id) { genre in
-                        MediaRow(genre.name, items.filter({ $0.genres.contains(genre) }), session.api.getImageURL, session.preferences.beta_uglymode)
+                        MediaRow(genre.name, items.filter({ $0.genres.contains(genre) }), session.api.getImageURL, session.preferences)
                         Divider()
                     }
                 }
