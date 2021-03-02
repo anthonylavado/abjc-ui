@@ -64,7 +64,7 @@ public struct MediaRow: View {
                 .font(.title3)
                 .padding(.horizontal, edgeInsets.leading)
             ScrollView(.horizontal, showsIndicators: false) {
-                LazyHStack(spacing: spacing) {
+                HStack(spacing: spacing) {
                     ForEach(items, id:\.id) { item in
                         #if os(tvOS)
                         NavigationLink(destination: ItemPage(item)) {
