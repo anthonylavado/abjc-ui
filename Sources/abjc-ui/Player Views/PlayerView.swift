@@ -45,7 +45,7 @@ public struct PlayerView: View {
         .edgesIgnoringSafeArea(.all)
         
         .onAppear(perform: initPlayback)
-        .onDisappear(perform: {self.playerStore.stoppedPlayback(playItem, player)})
+        .onDisappear(perform: deinitPlayback)
     }
     
     
@@ -77,14 +77,15 @@ public struct PlayerView: View {
             }
         }
         
+        print("PLAYBACK-REPORTING:", session.preferences.beta_playbackReporting)
+        // Report Playback Progress back to Jellyfin Server
         if session.preferences.beta_playbackReporting {
-            self.player.addPeriodicTimeObserver(forInterval: CMTime(seconds: 10, preferredTimescale: 1), queue: .main) { time in
-                if reportCounter < 10 {
-                    self.reportCounter += 1
-                } else {
-                    reportCounter = 0
-                    self.playerStore.reportPlayback(player, time.seconds*10)
-                }
+            let timeScale = 10000000
+            let interval = CMTime(seconds: 1, preferredTimescale: 10000000)
+            self.player.addPeriodicTimeObserver(forInterval: interval, queue: .main) { time in
+                let playbackPosition = Int( time.seconds * Double(timeScale) )
+                print("POSITION", time.seconds, playbackPosition)
+                self.playerStore.reportPlayback(player, playbackPosition)
             }
         }
         
@@ -92,7 +93,13 @@ public struct PlayerView: View {
         self.playerStore.startedPlayback(player)
         self.playerReady = true
         
+        print("USERDATA", playItem.userData.playbackPosition, playItem.userData.playbackPositionTicks, playItem.userData.playbackPositionTicks/playItem.userData.playbackPosition)
         player.seek(to: CMTime(seconds: Double(playItem.userData.playbackPosition), preferredTimescale: 1))
+    }
+    
+    func deinitPlayback() {
+        self.playerStore.stoppedPlayback(playItem, player)
+        self.player.pause()
     }
 }
 

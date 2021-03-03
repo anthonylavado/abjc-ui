@@ -35,6 +35,17 @@ struct MoviePage: View {
         self.item = item
     }
     
+    private var isContinue: Bool {
+        if !session.preferences.beta_playbackContinuation {
+            return false
+        }
+        let pos = detailItem?.userData.playbackPosition ?? item.userData.playbackPosition
+        if pos > 0 {
+            return true
+        }
+        
+        return false
+    }
     
     /// Movie Item
     @State var detailItem: API.Models.Movie?
@@ -53,8 +64,9 @@ struct MoviePage: View {
             ScrollView(.vertical, showsIndicators: true) {
                 headerView
                     .padding(80)
-                    .frame(width: geo.size.width, height: geo.size.height)
+                    .frame(width: geo.size.width, height: geo.size.height + 50)
 //                    .background(backdrop.edgesIgnoringSafeArea(.all))
+//                #warning("INFO VIEW")
 //                infoView
                 peopleView
                 recommendedView
@@ -81,17 +93,23 @@ struct MoviePage: View {
                         playerStore.play(item)
                     }
                 }) {
-                    Text("buttons.play")
+                    Text(isContinue ? "buttons.play" : "buttons.continue")
                         .bold()
                         .textCase(.uppercase)
                         .frame(width: 300)
-                }.foregroundColor(.accentColor)
+                }
+                .foregroundColor(.accentColor)
                 .padding(.trailing)
             }.disabled(detailItem == nil)
             if item.overview != nil {
                 Divider()
                 HStack() {
-                    Text(self.item.overview ?? "")
+                    Text(self.item.overview!)
+                }
+            } else if detailItem?.overview != nil {
+                Divider()
+                HStack() {
+                    Text(self.detailItem!.overview!)
                 }
             }
         }

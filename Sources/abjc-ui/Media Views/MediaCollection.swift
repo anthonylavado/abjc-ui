@@ -40,11 +40,23 @@ public struct MediaCollection: View {
         self.type = type
     }
     
+    @State var groupOption: Int = 0
+    @State var sortReversed: Bool = false
     
     /// ViewBuilder body
     public var body: some View {
         ViewContainer() {
             ScrollView(.vertical, showsIndicators: true) {
+//                /// Grouping & Sorting Options
+//                HStack(alignment: .center) {
+//                    Picker("mediaCollection.groupOptions", selection: $groupOption) {
+//                        Text("mediaCollection.groupOptions.genres").tag(0)
+//                        Text("mediaCollection.groupOptions.alphabetical").tag(1)
+//                    }
+//                    
+//                    Toggle("mediaCollection.sortOptions.reversed", isOn: $sortReversed)
+//                    Spacer()
+//                }.padding(.horizontal)
                 LazyVStack(alignment: .leading) {
                     ForEach(self.genres, id:\.id) { genre in
                         MediaRow(genre.name, items.filter({ $0.genres.contains(genre) }), session.api.getImageURL, session.preferences)

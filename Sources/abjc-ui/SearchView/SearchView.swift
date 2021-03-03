@@ -22,9 +22,16 @@ public struct SearchView: View {
     /// Query String
     @State var query: String = ""
     
+    /// Library Items
+    @State var libItems: [API.Models.Item] = []
+    
+    /// Starting letters
+    private var letters: [Character] {
+        return libItems.compactMap({ ($0.name.uppercased().first ?? "Z") }).uniques
+    }
     
     /// Search Result Items
-    @State var items: [API.Models.Item] = []
+    @State var searchItems: [API.Models.Item] = []
     
     /// Search Result People
     @State var people: [API.Models.Person] = []
@@ -35,26 +42,56 @@ public struct SearchView: View {
                 TextField("search.label", text: $query, onCommit: search)
                     .padding(.horizontal, 80)
                 
-                LazyVStack(alignment: .leading) {
-                    if items.count != 0 {
-                        MediaRow("", items, session.api.getImageURL, session.preferences)
-                    }
-                    
-                    if people.count != 0 {
-                        Divider()
-                        PeopleRow("search.people.label", people)
-                    }
+                if query == "" {
+                    libraryView
+                } else {
+                    searchResults
                 }
             }.edgesIgnoringSafeArea(.horizontal)
+        }.onAppear(perform: load)
+    }
+    
+    /// Library View
+    private var libraryView: some View {
+        LazyVStack(alignment: .leading) {
+            if libItems.count > 0 {
+                ForEach(letters, id:\.self) { letter in
+                    MediaRow(String(letter),
+                             libItems.filter({ ($0.name.first ?? "Z") == letter }),
+                             session.api.getImageURL, session.preferences)
+                    Divider()
+                }
+            } else {
+                EmptyView()
+            }
         }
     }
     
     
+    /// Search Results
+    private var searchResults: some View {
+        LazyVStack(alignment: .leading) {
+            if searchItems.count != 0 {
+                MediaRow("", searchItems, session.api.getImageURL, session.preferences)
+            }
+            
+            if people.count != 0 {
+                Divider()
+                PeopleRow("search.people.label", people)
+            }
+        }
+    }
+    
     /// search
     func search() {
+        if query == "" {
+            self.searchItems = []
+            self.people = []
+            return
+        }
         session.api.searchItems(query) { result in
             switch result {
-                case .success(let items): self.items = items
+                case .success(let items): self.searchItems = items
                 case .failure(let error): print(error)
             }
         }
@@ -62,6 +99,32 @@ public struct SearchView: View {
             switch result {
                 case .success(let items): self.people = items
                 case .failure(let error): print(error)
+            }
+        }
+    }
+    
+    /// Load default view
+    func load() {
+        self.libItems = session.items
+        if session.hasUser {
+            session.api.getItems() { result in
+                switch result {
+                    case .success(let items):
+                        if self.libItems != items {
+                            self.libItems = items
+                            session.updateItems(items)
+                        }
+                    case .failure(let error):
+                        if session.preferences.isDebugEnabled {
+                            DispatchQueue.main.async {
+                                session.alert = AlertError("alerts.apierror", error)
+                            }
+                        } else {
+                            DispatchQueue.main.async {
+                                session.alert = AlertError("alerts.apierror", error.localizedDescription)
+                            }
+                        }
+                }
             }
         }
     }
