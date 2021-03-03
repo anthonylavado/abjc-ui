@@ -36,11 +36,7 @@ struct MoviePage: View {
     }
     
     private var isContinue: Bool {
-        if !session.preferences.beta_playbackContinuation {
-            return false
-        }
-        let pos = detailItem?.userData.playbackPosition ?? item.userData.playbackPosition
-        if pos > 0 {
+        if item.userData.playbackPosition != 0 {
             return true
         }
         

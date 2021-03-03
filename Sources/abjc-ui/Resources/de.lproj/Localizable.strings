@@ -75,8 +75,6 @@
 "pref.client.tabs.label" = "Movies Tab";
 
 "pref.client.betaflags.label" = "Beta Flags";
-"pref.client.betaflags.playbackreporting" = "Playback Reporting";
-"pref.client.betaflags.playbackcontinuation" = "Playback Continuation";
 
 // ItemDetailView
 "itemdetail.recommended.label" = "Recommended";

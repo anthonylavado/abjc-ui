@@ -56,9 +56,15 @@ public struct EpisodeCard: View {
     
     /// Placeholder for loading URLImage
     private var placeholder: some View {
+        #if os(macOS)
+        Image(nsImage: NSImage(blurHash: self.item.blurHash(for: .backdrop) ?? self.item.blurHash(for: .primary) ?? "", size: CGSize(width: 32, height: 32)) ?? NSImage())
+            .renderingMode(.original)
+            .resizable()
+        #else
         Image(uiImage: UIImage(blurHash: self.item.blurHash(for: .backdrop) ?? self.item.blurHash(for: .primary) ?? "", size: CGSize(width: 32, height: 32)) ?? UIImage())
             .renderingMode(.original)
             .resizable()
+        #endif
     }
     
     
@@ -86,7 +92,7 @@ public struct EpisodeCard: View {
     /// PlaybackPosition Overlay
     private var overlay: some View {
         GeometryReader() { geo in
-            if session.preferences.beta_playbackContinuation && item.userData.playbackPosition != 0 {
+            if item.userData.playbackPosition != 0 {
                 ZStack(alignment: .leading) {
                     Capsule()
                     Capsule()

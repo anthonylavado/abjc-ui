@@ -39,9 +39,11 @@ public struct MainViewContainer: View {
                     } else {
                         view
                     }
-                }.fullScreenCover(item: $playerStore.playItem) {_ in
-                    PlayerView().environmentObject(playerStore)
                 }
+                #warning("FIXME")
+//                .fullScreenCover(item: $playerStore.playItem) {_ in
+//                    PlayerView().environmentObject(playerStore)
+//                }
             }
         }.alert(item: $session.alert) { (alert) -> Alert in
             Alert(

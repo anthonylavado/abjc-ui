@@ -77,16 +77,13 @@ public struct PlayerView: View {
             }
         }
         
-        print("PLAYBACK-REPORTING:", session.preferences.beta_playbackReporting)
         // Report Playback Progress back to Jellyfin Server
-        if session.preferences.beta_playbackReporting {
-            let timeScale = 10000000
-            let interval = CMTime(seconds: 1, preferredTimescale: 10000000)
-            self.player.addPeriodicTimeObserver(forInterval: interval, queue: .main) { time in
-                let playbackPosition = Int( time.seconds * Double(timeScale) )
-                print("POSITION", time.seconds, playbackPosition)
-                self.playerStore.reportPlayback(player, playbackPosition)
-            }
+        let timeScale = 10000000
+        let interval = CMTime(seconds: 1, preferredTimescale: 10000000)
+        self.player.addPeriodicTimeObserver(forInterval: interval, queue: .main) { time in
+            let playbackPosition = Int( time.seconds * Double(timeScale) )
+            print("POSITION", time.seconds, playbackPosition)
+            self.playerStore.reportPlayback(player, playbackPosition)
         }
         
         player.play()
