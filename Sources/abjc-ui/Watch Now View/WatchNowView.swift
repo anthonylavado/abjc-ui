@@ -37,8 +37,12 @@ public struct WatchNowView: View {
             ScrollView(.vertical, showsIndicators: true) {
                 VStack(alignment: .leading) {
                     if self.favoriteItems.count != 0 {
-                        CoverRow(nil, self.favoriteItems, session.api.getImageURL, session.preferences)
-                            .frame(height: 500)
+                        if session.preferences.beta_coverRows {
+                            CoverRow(nil, self.favoriteItems, session.api.getImageURL, session.preferences)
+                                .frame(height: 500)
+                        } else {
+                            MediaRow("watchnow.favorites", self.favoriteItems, session.api.getImageURL, session.preferences)
+                        }
                         Divider()
                     }
                     
