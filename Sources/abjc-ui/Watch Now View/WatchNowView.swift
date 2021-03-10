@@ -37,7 +37,8 @@ public struct WatchNowView: View {
             ScrollView(.vertical, showsIndicators: true) {
                 VStack(alignment: .leading) {
                     if self.favoriteItems.count != 0 {
-                        MediaRow("watchnow.favorites", self.favoriteItems, session.api.getImageURL, session.preferences)
+                        CoverRow(nil, self.favoriteItems, session.api.getImageURL, session.preferences)
+                            .frame(height: 500)
                         Divider()
                     }
                     
@@ -67,6 +68,25 @@ public struct WatchNowView: View {
     }
     
     func load() {
+        self.favoriteItems = session.items.filter({ $0.userData.isFavorite })
+        self.resumeItems = session.items.filter({ $0.userData.playbackPosition > 0})
+        
+        session.api.getItems { (result) in
+            switch result {
+                case .success(let items):
+                    session.updateItems(items)
+                    self.favoriteItems = items.filter({ $0.userData.isFavorite })
+                    self.resumeItems = items.filter({ $0.userData.playbackPosition > 0})
+                    
+                case .failure(let error):
+                    DispatchQueue.main.async {
+                        session.alert = AlertError("alerts.apierror", error.localizedDescription)
+                    }
+            }
+            
+            
+        }
+        
         session.api.getResumable { (result) in
             switch result {
                 case .success(let items): self.resumeItems = items
@@ -93,13 +113,6 @@ public struct WatchNowView: View {
                 case .failure(let error):
                     print(error)
                     session.alert = AlertError("alerts.apierror", error.localizedDescription)
-            }
-        }
-        
-        session.api.getFavorites { (result) in
-            switch result {
-                case .success(let items): self.favoriteItems = items
-                case .failure(let error): session.alert = AlertError("alerts.apierror", error.localizedDescription)
             }
         }
     }

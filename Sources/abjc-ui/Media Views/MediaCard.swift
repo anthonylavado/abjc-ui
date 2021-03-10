@@ -70,16 +70,9 @@ public struct MediaCard: View {
     
     /// Placeholder for loading URLImage
     private var placeholder: some View {
-        #if os(macOS)
-        Image(nsImage: NSImage(blurHash: self.item.blurHash(for: .backdrop) ?? self.item.blurHash(for: .primary) ?? "", size: CGSize(width: 8, height: 8)) ?? NSImage())
-            .renderingMode(.original)
-            .resizable()
-        #else
         Image(uiImage: UIImage(blurHash: self.item.blurHash(for: .backdrop) ?? self.item.blurHash(for: .primary) ?? "", size: CGSize(width: 8, height: 8)) ?? UIImage())
             .renderingMode(.original)
             .resizable()
-        #endif
-        
     }
     
     

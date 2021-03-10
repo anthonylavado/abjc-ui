@@ -27,6 +27,12 @@ public class DesignConfiguration: EnvironmentKey, ObservableObject {
     /// MediaCard Configuration
     public var mediaCard: MediaCard
     
+    /// CoverRow Configuration
+    public var coverRow: CoverRow
+    
+    /// CoverCard Configuration
+    public var coverCard: CoverCard
+    
     /// PeopleRow Configuration
     public var peopleRow: PeopleRow
     
@@ -49,6 +55,8 @@ public class DesignConfiguration: EnvironmentKey, ObservableObject {
     public init(_ device: Device) {
         switch device {
             case .atv:
+                self.coverRow       = .atv
+                self.coverCard      = .atv
                 self.mediaRow       = .atv
                 self.mediaCard      = .atv
                 self.peopleRow      = .atv
@@ -57,6 +65,8 @@ public class DesignConfiguration: EnvironmentKey, ObservableObject {
                 self.episodeCard    = .atv
                 self.navStyle       = .tabs
             case .ios:
+                self.coverRow       = .ios
+                self.coverCard      = .ios
                 self.mediaRow       = .ios
                 self.mediaCard      = .ios
                 self.peopleRow      = .ios
@@ -65,6 +75,8 @@ public class DesignConfiguration: EnvironmentKey, ObservableObject {
                 self.episodeCard    = .ios
                 self.navStyle       = .stacked
             case .mac:
+                self.coverRow       = .mac
+                self.coverCard      = .mac
                 self.mediaRow       = .mac
                 self.mediaCard      = .mac
                 self.peopleRow      = .mac
@@ -75,6 +87,8 @@ public class DesignConfiguration: EnvironmentKey, ObservableObject {
         }
     }
     public init(
+        _ coverRow: CoverRow,
+        _ coverCard: CoverCard,
         _ mediaRow: MediaRow,
         _ mediaCard: MediaCard,
         _ peopleRow: PeopleRow,
@@ -83,6 +97,8 @@ public class DesignConfiguration: EnvironmentKey, ObservableObject {
         _ episodeCard: EpisodeCard,
         _ navStyle: NavigationStyle
     ) {
+        self.coverRow       = coverRow
+        self.coverCard      = coverCard
         self.mediaRow       = mediaRow
         self.mediaCard      = mediaCard
         self.peopleRow      = peopleRow

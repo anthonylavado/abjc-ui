@@ -40,10 +40,9 @@ public struct MainViewContainer: View {
                         view
                     }
                 }
-                #warning("FIXME")
-//                .fullScreenCover(item: $playerStore.playItem) {_ in
-//                    PlayerView().environmentObject(playerStore)
-//                }
+                .fullScreenCover(item: $playerStore.playItem) {_ in
+                    PlayerView().environmentObject(playerStore)
+                }
             }
         }.alert(item: $session.alert) { (alert) -> Alert in
             Alert(
@@ -55,7 +54,7 @@ public struct MainViewContainer: View {
     }
     
     
-    #if os(OSX)
+    #if os(macOS)
     
     /// MacOS MainView
     private var view: some View {

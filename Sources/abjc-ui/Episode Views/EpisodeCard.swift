@@ -56,15 +56,9 @@ public struct EpisodeCard: View {
     
     /// Placeholder for loading URLImage
     private var placeholder: some View {
-        #if os(macOS)
-        Image(nsImage: NSImage(blurHash: self.item.blurHash(for: .backdrop) ?? self.item.blurHash(for: .primary) ?? "", size: CGSize(width: 32, height: 32)) ?? NSImage())
-            .renderingMode(.original)
-            .resizable()
-        #else
         Image(uiImage: UIImage(blurHash: self.item.blurHash(for: .backdrop) ?? self.item.blurHash(for: .primary) ?? "", size: CGSize(width: 32, height: 32)) ?? UIImage())
             .renderingMode(.original)
             .resizable()
-        #endif
     }
     
     
