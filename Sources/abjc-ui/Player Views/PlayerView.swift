@@ -19,6 +19,7 @@ public struct PlayerView: View {
     @EnvironmentObject var session: SessionStore
     
     /// DesignConfiguration Environment
+    
     @Environment(\.designConfig) var designConfig
     
     /// PlayerStore EnvironmentObject

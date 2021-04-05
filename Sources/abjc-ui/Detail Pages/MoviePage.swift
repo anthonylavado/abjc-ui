@@ -146,7 +146,7 @@ struct MoviePage: View {
             EmptyView()
             if self.detailItem?.people?.count != 0 {
                 Divider().padding(.horizontal, 80)
-                PeopleRow("", self.detailItem?.people ?? [])
+                PeopleRow("itemdetail.people.label", self.detailItem?.people ?? [])
             } else {
                 EmptyView()
             }

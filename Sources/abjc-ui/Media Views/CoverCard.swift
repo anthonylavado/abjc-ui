@@ -22,6 +22,7 @@ public struct CoverCard: View {
     /// DesignConfiguration Environment
     @Environment(\.designConfig) var designConfig
     
+    
     /// Reference to DesignConfiguration > CoverCard > Height
     private var height: CGFloat { designConfig.coverCard.height }
     

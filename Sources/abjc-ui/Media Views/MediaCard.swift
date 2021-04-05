@@ -19,6 +19,7 @@ public struct MediaCard: View {
     /// Image URL
     private let url: URL
     
+    
     /// DesignConfiguration Environment
     @Environment(\.designConfig) var designConfig
     
